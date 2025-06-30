@@ -1,0 +1,49 @@
+# Your crypto data
+crypto_db = {
+    "Bitcoin": {
+        "price_trend": "rising",
+        "market_cap": "high",
+        "energy_use": "high",
+        "sustainability_score": 3/10
+    },
+    "Ethereum": {
+        "price_trend": "stable",
+        "market_cap": "high",
+        "energy_use": "medium",
+        "sustainability_score": 6/10
+    },
+    "Cardano": {
+        "price_trend": "rising",
+        "market_cap": "medium",
+        "energy_use": "low",
+        "sustainability_score": 8/10
+    }
+}
+
+def crypto_advisor(user_query):
+    user_query = user_query.lower()
+
+    if "sustainable" in user_query or "green" in user_query:
+        # Find coin with highest sustainability score and low energy use
+        sustainable_coins = {k:v for k,v in crypto_db.items() if v["energy_use"] == "low" and v["sustainability_score"] > 0.7}
+        if sustainable_coins:
+            best_coin = max(sustainable_coins, key=lambda x: sustainable_coins[x]["sustainability_score"])
+            return f"Invest in {best_coin}! 🌱 It’s eco-friendly and has great long-term potential."
+        else:
+            return "No highly sustainable coins found right now. Maybe check again later!"
+
+    elif "rising" in user_query or "trending" in user_query or "growth" in user_query:
+        # Find coins rising with high market cap
+        profitable_coins = {k:v for k,v in crypto_db.items() if v["price_trend"] == "rising" and v["market_cap"] == "high"}
+        if profitable_coins:
+            best_coin = list(profitable_coins.keys())[0]
+            return f"{best_coin} is trending up with a strong market cap! 🚀"
+        else:
+            return "No top trending coins with high market cap right now."
+
+    else:
+        return "Sorry, I didn't quite get that. Ask me about trending or sustainable cryptos!"
+
+# Example chat
+print("You: Which crypto should I buy for long-term growth?")
+print("CryptoBuddy:", crypto_advisor("Which crypto should I buy for long-term growth?"))
